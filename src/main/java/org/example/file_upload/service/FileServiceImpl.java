@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import software.amazon.awssdk.core.ResponseInputStream;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.DeleteObjectResponse;
 import software.amazon.awssdk.services.s3.model.GetObjectResponse;
 import software.amazon.awssdk.services.s3.model.PutObjectResponse;
 
@@ -137,11 +138,15 @@ public class FileServiceImpl implements FileService {
             String bucketName = amazonS3Config.getBucketName();
             String s3Key = fileId;
 
-            s3Client.deleteObject(builder ->
+            DeleteObjectResponse deleteObjectResponse = s3Client.deleteObject(builder ->
                     builder.bucket(bucketName)
                             .key(s3Key)
                             .build());
 
+            if (!deleteObjectResponse.sdkHttpResponse().isSuccessful()) {
+                // Handle delete failure
+                throw new RuntimeException("Failed to delete file data in S3");
+            }
             return "File deleted successfully";
         }
 
