@@ -48,7 +48,7 @@ public class FileController {
         try {
             byte[] newFileData = (newFile != null) ? newFile.getBytes() : null;
             FileMetadata updatedMetadata = fileService.updateFile(fileId, newFileData, newMetadata);
-            if(newMetadata == null ) {
+            if(newMetadata == null && updatedMetadata != null) {
                 return ResponseEntity.ok("File Updated Successfully");
             }
             if (updatedMetadata != null) {

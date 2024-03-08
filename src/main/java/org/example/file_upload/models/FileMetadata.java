@@ -20,9 +20,4 @@ public class FileMetadata {
     private LocalDateTime createdAt;
     private long size;
     private String fileType;
-
-//    @OneToOne(mappedBy = "fileMetadata")
-//    private FileData fileData;
-
-    // Constructors, getters, and setters
 }
